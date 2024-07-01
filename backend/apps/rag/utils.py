@@ -389,11 +389,6 @@ def generate_openai_batch_embeddings(
             model= model
         )
 
-        try:
-            r.raise_for_status()
-        except Exception as e2:
-            print("exception")
-            print(e2)
         data=json.loads(r.model_dump_json())
         if "data" in data:
             return [elem["embedding"] for elem in data["data"]]
