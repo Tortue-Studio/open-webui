@@ -1,6 +1,8 @@
 import os
 import logging
 import requests
+from openai import AzureOpenAI
+import json
 
 from typing import List, Union
 
@@ -376,16 +378,18 @@ def generate_openai_batch_embeddings(
     model: str, texts: list[str], key: str, url: str = "https://api.openai.com/v1"
 ) -> Optional[list[list[float]]]:
     try:
-        r = requests.post(
-            f"{url}/embeddings",
-            headers={
-                "Content-Type": "application/json",
-                "Authorization": f"Bearer {key}",
-            },
-            json={"input": texts, "model": model},
+        client = AzureOpenAI(
+        api_key = key,  
+        api_version = "2024-02-01",
+        azure_endpoint =url
         )
-        r.raise_for_status()
-        data = r.json()
+
+        r = client.embeddings.create(
+            input = texts,
+            model= model
+        )
+
+        data=json.loads(r.model_dump_json())
         if "data" in data:
             return [elem["embedding"] for elem in data["data"]]
         else:
