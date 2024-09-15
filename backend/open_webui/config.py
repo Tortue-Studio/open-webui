@@ -437,7 +437,7 @@ load_oauth_providers()
 
 STATIC_DIR = Path(os.getenv("STATIC_DIR", OPEN_WEBUI_DIR / "static")).resolve()
 
-frontend_favicon = FRONTEND_BUILD_DIR / "static" / "favicon.png"
+frontend_favicon = STATIC_DIR / "favicon.png"
 
 if frontend_favicon.exists():
     try:
@@ -447,7 +447,7 @@ if frontend_favicon.exists():
 else:
     logging.warning(f"Frontend favicon not found at {frontend_favicon}")
 
-frontend_splash = FRONTEND_BUILD_DIR / "static" / "splash.png"
+frontend_splash = STATIC_DIR / "splash.png"
 
 if frontend_splash.exists():
     try:
